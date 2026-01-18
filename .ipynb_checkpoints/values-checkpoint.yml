@@ -1,0 +1,21 @@
+replicaCount: 1
+
+image:
+  repository: 972729655482.dkr.ecr.us-east-1.amazonaws.com/sagemaker-studio-d-fi0qlan4ewgx
+  tag: default-20260115T160644
+
+service:
+  type: ClusterIP
+  port: 8000
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+env:
+  - name: MODEL_PATH
+    value: /app/model.pkl
