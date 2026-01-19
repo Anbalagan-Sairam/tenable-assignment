@@ -5,3 +5,4 @@ scikit-learn==1.7.2
 joblib==1.5.2
 boto3==1.37.3
 pytest==9.0.2
+httpx==0.28.2
