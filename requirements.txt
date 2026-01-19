@@ -1,6 +1,6 @@
-fastapi
+fastapi==0.124.4
 uvicorn[standard]
-pandas
-scikit-learn
-joblib
-boto3
+pandas==2.3.3
+scikit-learn==1.7.2
+joblib==1.5.2
+boto3==1.37.3

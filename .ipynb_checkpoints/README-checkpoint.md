@@ -57,3 +57,22 @@ BODY: {'survival_probability': 0.5}
 STATUS: 422
 BODY: {'detail': [{'type': 'int_parsing', 'loc': ['body', 'pclass'], 'msg': 'Input should be a valid integer, unable to parse string as an integer', 'input': 'one'}, {'type': 'float_parsing', 'loc': ['body', 'age'], 'msg': 'Input should be a valid number, unable to parse string as a number', 'input': 'twenty'}]}
 ```
+
+## Part 4: Containerization
+The FastAPI service is containerized using Docker to ensure consistency across different environments. A lightweight Python base image is used and only the required dependencies are included to keep the image minimal and secure. The container runs the application using Uvicorn and exposes the API on port 8000, making it easy to deploy and run in both local and cloud environments.
+
+The following command is used to containerize in AWS Sagemaker:
+```bash
+sm-docker build .
+```
+
+Once run, I am able to obtain a docker image which I can view from ECR Repo.
+
+```bash
+972729655482.dkr.ecr.us-east-1.amazonaws.com/sagemaker-studio-d-fi0qlan4ewgx:default-20260115T160644
+```
+
+## Part 5: CI/CD & Deployment
+
+A basic CI pipeline is added using GitHub Actions to ensure code quality and reliability on every push and to check guardrails. The pipeline is present in tenable_assignment/.github/workflows/ci.yml. The code consists of five steps to setup repo code, python environment, install requirements.txt, run static code linting and execute all unit test using pytest.
+The pipeline runs for every push to code in github. values.yml contains the deployment settings for kubernetes.
