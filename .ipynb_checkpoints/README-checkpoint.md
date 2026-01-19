@@ -35,3 +35,25 @@ The following response is obtained:
   "survival_probability": 0.6610708874611355
 }
 ```
+## Part 2: Observability & Metrics
+
+Added Observability middleware that the logs the number of request made with total time taken
+
+## Part 3: Testing
+
+For this step, unit tests were written using pytest to validate the API logic without loading the heavy ML model artifact. The model is mocked using Python’s `unittest.mock` library so the tests only validate the API response structure, input validation, and overall request handling.
+
+Run the following command to perform unit testing
+```bash
+pytest -s
+```
+
+Output:
+```bash
+test_app.py {"request_number": 1, "path": "/predict", "method": "POST", "latency_sec": 0.0021, "status_code": 200}
+STATUS: 200
+BODY: {'survival_probability': 0.5}
+.{"request_number": 2, "path": "/predict", "method": "POST", "latency_sec": 0.0009, "status_code": 422}
+STATUS: 422
+BODY: {'detail': [{'type': 'int_parsing', 'loc': ['body', 'pclass'], 'msg': 'Input should be a valid integer, unable to parse string as an integer', 'input': 'one'}, {'type': 'float_parsing', 'loc': ['body', 'age'], 'msg': 'Input should be a valid number, unable to parse string as a number', 'input': 'twenty'}]}
+```

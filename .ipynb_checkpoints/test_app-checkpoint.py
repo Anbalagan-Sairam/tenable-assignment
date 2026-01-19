@@ -7,9 +7,9 @@ from app import app
 
 client = TestClient(app)
 
-# ----- Unit Test with Mocked Model -----
+# Unit test
 def test_predict_with_mocked_model():
-    # Create a fake model that always returns 0.5 probability
+    # Create a fake model that always returns 0.5 probability using unittest library
     fake_model = MagicMock()
     fake_model.predict_proba.return_value = [[0.5, 0.5]]
 
@@ -17,7 +17,7 @@ def test_predict_with_mocked_model():
     with patch("app.model", fake_model):
         response = client.post(
             "/predict",
-            json={"pclass": 3, "age": 29, "sibsp": 0, "fare": 7.25}
+            json={"pclass": 1, "age": 28, "sibsp": 0, "fare": 10}
         )
         assert response.status_code == 200
         data = response.json()
@@ -25,12 +25,15 @@ def test_predict_with_mocked_model():
         assert "survival_probability" in data
         # Check that the mocked model returned 0.5
         assert data["survival_probability"] == 0.5
+        print("STATUS:", response.status_code)
+        print("BODY:", response.json())
 
-# ----- Optional: Test input validation -----
+# Input test validation
 def test_predict_input_validation():
     response = client.post(
         "/predict",
-        json={"pclass": "three", "age": "twenty", "sibsp": 0, "fare": 7.25}
+        json={"pclass": "one", "age": "twenty", "sibsp": 0, "fare": 10}
     )
-    # FastAPI should reject invalid types
     assert response.status_code == 422
+    print("STATUS:", response.status_code)
+    print("BODY:", response.json())
