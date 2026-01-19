@@ -5,25 +5,25 @@ import json
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 
-# ----- Model Loading -----
+# Loading the model using joblib
 MODEL_PATH = "model.pkl"
 if not os.path.exists(MODEL_PATH):
-    raise FileNotFoundError(f"{MODEL_PATH} not found. Run train_model.py first.")
+    raise FileNotFoundError(f"{MODEL_PATH} not found")
 
 model = joblib.load(MODEL_PATH)  # Load model once at startup
 
-# ----- FastAPI App -----
+# FastAPI App
 app = FastAPI(title="Titanic Survival Predictor")
 
-# ----- Input Schema -----
+# Input Schema
 class PassengerFeatures(BaseModel):
     pclass: int
     age: float
     sibsp: int
     fare: float
 
-# ----- Observability Middleware -----
-request_count = 0  # global counter
+# Observability Middleware
+request_count = 0
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
@@ -39,7 +39,7 @@ async def log_requests(request: Request, call_next):
         "latency_sec": round(process_time, 4),
         "status_code": response.status_code
     }
-    print(json.dumps(log))  # logs appear in terminal in JSON format
+    print(json.dumps(log))  # logs print the number of request made and time taken
     return response
 
 # ----- Prediction Endpoint -----
