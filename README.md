@@ -1,4 +1,4 @@
-# AI Engineer: Technical Assignment
+# AI Engineer: Titanic survival
 
 
 ## Goal
